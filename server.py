@@ -1,9 +1,10 @@
 from assets.leonResources import color,custom_output,user_input,banner
 import socket
 banner.leonBanner()
-ip_address='127.0.0.1'
-port=8080
-server=socket.socket()
+ip_address=''
+port=1191
+server=socket.socket(socket.AF_INET,socket.SOCK_STREAM)
+server.setsockopt(socket.SOL_SOCKET,socket.SO_REUSEADDR,1)
 server.bind((ip_address,port))
 custom_output.info("[+]server started",color.green)
 custom_output.info("listeninf for client connction...",color.green)
