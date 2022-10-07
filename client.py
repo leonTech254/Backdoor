@@ -1,3 +1,4 @@
+from http import client
 import subprocess
 import socket
 import os
@@ -8,9 +9,10 @@ from flask_login import current_user
 
 from py import process
 
-ip_address="127.0.0.1"
-port=8080
-client=socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+ip_address="158.69.36.48"
+port=1191
+client=socket.socket(socket.AF_INET,socket.SOCK_STREAM)
+client.setsockopt(socket.SOL_SOCKET,socket.SO_REUSEADDR,1)
 print("initiating process")
 client.connect((ip_address,port))
 print("connection intitated")
