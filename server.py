@@ -28,6 +28,7 @@ while True:
                     f.write(data)
                     data=client.recv(1024)
                     if data==b"DONE":
+                        custom_output.error(f"file transferred successfully")
                         break
         else:
             custom_output.error(f"file not found")
