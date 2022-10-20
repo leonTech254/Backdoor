@@ -9,7 +9,7 @@ from flask_login import current_user
 
 from py import process
 
-ip_address="158.69.36.48"
+ip_address=""
 port=1191
 client=socket.socket(socket.AF_INET,socket.SOCK_STREAM)
 client.setsockopt(socket.SOL_SOCKET,socket.SO_REUSEADDR,1)
